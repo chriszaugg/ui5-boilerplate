@@ -1,10 +1,7 @@
 /**
- * Controller - Home
- * --------------------
- * This is the controller for the home view
- *
+ * Created by TGDZACH8 on 28.08.2014.
  */
-sap.ui.controller( 'view.home', {
+sap.ui.controller( 'view.carrier.list', {
     /**
      * Called when a controller is instantiated and its View controls (if available) are already created.
      * Can be used to modify the View before it is displayed, to bind event handlers and do other one-time initialization.
@@ -32,7 +29,19 @@ sap.ui.controller( 'view.home', {
     onBeforeRendering: function(){
     },
 
-    getViewName: function(){
-        return 'view.home';
+    onRowSelectionChange: function( oEvent ) {
+        //Get the selected carrier
+        var oRowContext = oEvent.getParameter( 'rowContext' );
+
+        if( oRowContext !== undefined || oRowContext !== '' || oRowContext !== null ){
+            // Set context for the carrier detail view
+            var oCarrierDetailView = sap.ui.getCore().getElementById( 'carrier.detail' );
+            var oCarrierDetailController = oCarrierDetailView.getController();
+            oCarrierDetailController.setBindingContext( oRowContext );
+
+            // Navigate to carrier detail view
+            var oNavCon = sap.ui.getCore().byId( 'navContainerControl' );
+            oNavCon.to( 'carrier.detail' );
+        }
     }
 } );
